@@ -48,14 +48,13 @@ export class TickersService {
         })
     }
 
-
+    // for obtaining end of day data for specific ticker and specific date
     async getEodDate(
         date: Record<string, any>,
-        id: Record<string, any>
+        id: Record<string, any>  // symbol
     ): Promise<Record<string, any>> {
         const symbol: string = id["symbol"];
         const qDate: string = date["date"];
-        console.log(qDate)
 
 
         return new Promise((resolve, reject) => {
@@ -71,5 +70,47 @@ export class TickersService {
             })()
         })
     }
+
+    async getEodLatest(
+        id: Record<string, any>,
+    ): Promise<Record<string, any>> {
+        const symbol: string = id["symbol"]
+        return new Promise((resolve, reject) => {
+            (async () => {
+                try {
+                    const res = await axios(`http://api.marketstack.com/v1/eod/latest?access_key=${this.params.access_key}&symbols=${symbol}`);
+                    resolve(res.data)
+                } catch (err) {
+                    if (err.code === 'Api error') {
+                    }
+                    reject(err);
+                }
+            })()
+        })
+    }
+
+    async getIntradayDate(
+        date: Record<string, any>,
+        id: Record<string, any>,
+    ): Promise<Record<string, any>> {
+        const symbol: string = id["symbol"];
+        const qDate: string = date["date"];
+
+
+        return new Promise((resolve, reject) => {
+            (async () => {
+                try {
+                    const res = await axios(`http://api.marketstack.com/v1/intraday/${qDate}?access_key=${this.params.access_key}&symbols=${symbol}`);
+                    resolve(res.data)
+                } catch (err) {
+                    if (err.code === 'Api error') {
+                    }
+                    reject(err);
+                }
+            })()
+        })
+
+    }
+
 
 }

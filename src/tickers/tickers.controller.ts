@@ -25,6 +25,27 @@ export class TickersController {
         return this.tickerService.getEodDate(date, id)
     }
 
+    @Get('/eod/latest')
+    getTickerEodLatest(
+        @Query() id: Record<string, any>, //Query is the symbol of the Respective company stock ?
+    ): Promise<Record<string, any>> {
+        return this.tickerService.getEodLatest(id)
+    }
+
+    @Get('/intraday/:date')
+    getIntradayDate(
+        @Param() date: Record<string, any>,
+        @Query() id: Record<string, any>
+    ): Promise<Record<string, any>> {
+        return this.tickerService.getIntradayDate(date, id)
+    }
+
+    @Get('/intraday/latest')
+    getIntradayLatest(
+        @Query() id: Record<string, any>, //Query is the symbol of the Respective company stock ?
+    ): Promise<Record<string, any>> {
+        return this.tickerService.getIntradayLatest(id)
+    }
 
 
 }
