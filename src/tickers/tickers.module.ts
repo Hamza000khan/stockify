@@ -6,4 +6,4 @@ import { TickersService } from './tickers.service';
   controllers: [TickersController],
   providers: [TickersService]
 })
-export class TickersModule {}
+export class TickersModule { }

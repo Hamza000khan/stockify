@@ -1,12 +1,11 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import axios from 'axios';
-import { response } from 'express';
 
 
 @Injectable()
 export class TickersService {
-    constructor(){}
-    private params  = {
+    constructor() { }
+    private params = {
         access_key: '500369d7c0a94f30304d508048d122f6'
     }
 
@@ -16,11 +15,11 @@ export class TickersService {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                   const res = await axios('http://api.marketstack.com/v1/tickers', {params: this.params});
-                   resolve(res.data['data'])
-                } catch(err){
-                    if(err.code === 'Api error'){
-                        
+                    const res = await axios('http://api.marketstack.com/v1/tickers', { params: this.params });
+                    resolve(res.data)
+                } catch (err) {
+                    if (err.code === 'Api error') {
+
                     }
                     reject(err);
                 }
@@ -28,17 +27,20 @@ export class TickersService {
         })
     }
 
+    // For obtaining End of day data of specific ticker
     async getEodRes(
-        symbol: string
+        id: Record<string, any>
     ): Promise<Record<string, any>> {
+        const symbol: string = id["symbol"]
+
+
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                   const res = await axios(`http://api.marketstack.com/v1/eod`, {params: {this.params,symbol:symbolya}  });
-                   resolve(res.data['data'])
-                } catch(err){
-                    if(err.code === 'Api error'){
-                        
+                    const res = await axios(`http://api.marketstack.com/v1/eod?access_key=${this.params.access_key}&symbols=${symbol}`);
+                    resolve(res.data)
+                } catch (err) {
+                    if (err.code === 'Api error') {
                     }
                     reject(err);
                 }
@@ -47,6 +49,27 @@ export class TickersService {
     }
 
 
+    async getEodDate(
+        date: Record<string, any>,
+        id: Record<string, any>
+    ): Promise<Record<string, any>> {
+        const symbol: string = id["symbol"];
+        const qDate: string = date["date"];
+        console.log(qDate)
 
+
+        return new Promise((resolve, reject) => {
+            (async () => {
+                try {
+                    const res = await axios(`http://api.marketstack.com/v1/eod/${qDate}?access_key=${this.params.access_key}&symbols=${symbol}`);
+                    resolve(res.data)
+                } catch (err) {
+                    if (err.code === 'Api error') {
+                    }
+                    reject(err);
+                }
+            })()
+        })
+    }
 
 }
