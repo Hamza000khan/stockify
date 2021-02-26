@@ -109,8 +109,24 @@ export class TickersService {
                 }
             })()
         })
-
     }
 
-
+    async getIntradayLatest(
+        id: Record<string, any>
+    ): Promise<Record<string, any>> {
+        const symbol: string = id["symbol"]
+        return new Promise((resolve, reject) => {
+            (async () => {
+                try {
+                    const res = await axios(`http://api.marketstack.com/v1/intraday/latest?access_key=${this.params.access_key}&symbols=${symbol}`);
+                    resolve(res.data)
+                } catch (err) {
+                    if (err.code === 'Api error') {
+                    }
+                    reject(err);
+                }
+            })()
+        })
+    }
 }
+
