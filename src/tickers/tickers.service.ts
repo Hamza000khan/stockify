@@ -10,7 +10,7 @@ export class TickersService {
     }
 
 
-    // For obtaining all the data of the tickers
+    // For obtaining all the data of the tickers {includes symbols for the respective companies}
     async getAllTickers(): Promise<Record<string, any>> {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -50,7 +50,7 @@ export class TickersService {
 
     // for obtaining end of day data for specific ticker and specific date
     async getEodDate(
-        date: Record<string, any>,
+        date: Record<string, any>, // date of which data is requested
         id: Record<string, any>  // symbol
     ): Promise<Record<string, any>> {
         const symbol: string = id["symbol"];
@@ -72,7 +72,7 @@ export class TickersService {
     }
 
     async getEodLatest(
-        id: Record<string, any>,
+        id: Record<string, any>, // Id will be the symbol of the company
     ): Promise<Record<string, any>> {
         const symbol: string = id["symbol"]
         return new Promise((resolve, reject) => {
